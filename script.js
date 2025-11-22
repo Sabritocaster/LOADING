@@ -132,8 +132,8 @@ function randomGlitch() {
 
 setInterval(randomGlitch, 2000);
 
-// Days Counter - Calculate days since Nov 1, 2024 (or whenever you started)
-const startDate = new Date('2024-11-01');
+// Days Counter - Calculate days since Nov 1, 2025 (or whenever you started)
+const startDate = new Date('2025-11-01');
 const daysCounter = document.getElementById('daysCounter');
 if (daysCounter) {
     function updateDaysCounter() {
