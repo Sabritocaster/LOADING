@@ -6,12 +6,13 @@ const loadingPercentage = document.getElementById('loadingPercentage');
 function animateLoading() {
     let progress = 99;
     const interval = setInterval(() => {
-        // Keep it at 99% with slight variations
-        progress = 99 + Math.random() * 0.5;
+        // Keep it at 99% with more noticeable variations
+        // Range: 98.5% to 99.8% for more visible animation
+        progress = 98.5 + Math.random() * 1.3;
         if (loadingBar) {
             const progressBar = loadingBar.querySelector('.loading-progress');
             if (progressBar) {
-                progressBar.style.width = Math.min(progress, 99.5) + '%';
+                progressBar.style.width = Math.min(progress, 99.8) + '%';
             }
         }
         if (loadingPercentage) {
@@ -23,17 +24,50 @@ function animateLoading() {
 // Start loading animation
 animateLoading();
 
-// Mobile menu toggle
+// Mobile sidebar toggle
 const menuToggle = document.getElementById('menuToggle');
-const nav = document.querySelector('.nav');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const sidebarClose = document.getElementById('sidebarClose');
+
+function openSidebar() {
+    if (sidebar) {
+        sidebar.classList.add('active');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.add('active');
+        }
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeSidebar() {
+    if (sidebar) {
+        sidebar.classList.remove('active');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove('active');
+        }
+        document.body.style.overflow = '';
+    }
+}
 
 if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-        if (nav) {
-            nav.classList.toggle('active');
-        }
-    });
+    menuToggle.addEventListener('click', openSidebar);
 }
+
+if (sidebarClose) {
+    sidebarClose.addEventListener('click', closeSidebar);
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+}
+
+// Close sidebar when clicking on links
+document.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', () => {
+        setTimeout(closeSidebar, 300);
+    });
+});
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -77,15 +111,7 @@ function typeWriter(element, text, speed = 50) {
     type();
 }
 
-// Parallax effect on scroll
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        hero.style.opacity = 1 - scrolled / 500;
-    }
-});
+// Parallax effect removed for better mobile experience
 
 // Add random glitch effects
 function randomGlitch() {
@@ -106,7 +132,215 @@ function randomGlitch() {
 
 setInterval(randomGlitch, 2000);
 
+// Days Counter - Calculate days since Nov 1, 2024 (or whenever you started)
+const startDate = new Date('2024-11-01');
+const daysCounter = document.getElementById('daysCounter');
+if (daysCounter) {
+    function updateDaysCounter() {
+        const now = new Date();
+        const diffTime = Math.abs(now - startDate);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        daysCounter.textContent = diffDays;
+    }
+    updateDaysCounter();
+    setInterval(updateDaysCounter, 1000 * 60 * 60); // Update every hour
+}
+
+// Live Quotes from CSV
+let quotes = [];
+let currentQuoteIndex = 0;
+const quoteCard = document.getElementById('quoteCard');
+const quoteText = document.getElementById('quoteText');
+const quoteAuthor = document.getElementById('quoteAuthor');
+const quoteCounter = document.getElementById('quoteCounter');
+const quotePrev = document.getElementById('quotePrev');
+const quoteNext = document.getElementById('quoteNext');
+
+// Load quotes from JSON
+async function loadQuotes() {
+    try {
+        const response = await fetch('tweets-quotes.json');
+        if (!response.ok) {
+            throw new Error('tweets-quotes.json not found. Run: node parse-tweets.js');
+        }
+        quotes = await response.json();
+        
+        if (quotes.length > 0) {
+            showQuote(0);
+            updateCounter();
+        } else {
+            if (quoteText) quoteText.textContent = "Loading quotes...";
+        }
+    } catch (error) {
+        console.error('Error loading quotes:', error);
+        // Fallback quotes
+        quotes = [
+            { text: "We're not early. We're not late. We're buffering.", id: "fallback" },
+            { text: "LOADING isn't just a project… it's a SIGNAL.", id: "fallback2" }
+        ];
+        if (quotes.length > 0) {
+            showQuote(0);
+            updateCounter();
+        }
+    }
+}
+
+function showQuote(index) {
+    if (!quoteCard || !quoteText || !quoteAuthor || quotes.length === 0) return;
+    
+    quoteCard.classList.remove('active');
+    setTimeout(() => {
+        currentQuoteIndex = index;
+        const quote = quotes[currentQuoteIndex];
+        quoteText.textContent = `"${quote.text}"`;
+        quoteAuthor.textContent = "— @stilllllloading";
+        quoteCard.classList.add('active');
+        updateCounter();
+    }, 250);
+}
+
+function nextQuote() {
+    if (quotes.length === 0) return;
+    const nextIndex = (currentQuoteIndex + 1) % quotes.length;
+    showQuote(nextIndex);
+}
+
+function prevQuote() {
+    if (quotes.length === 0) return;
+    const prevIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+    showQuote(prevIndex);
+}
+
+function updateCounter() {
+    // Counter removed as requested
+}
+
+// Navigation buttons
+if (quotePrev) {
+    quotePrev.addEventListener('click', prevQuote);
+}
+
+if (quoteNext) {
+    quoteNext.addEventListener('click', nextQuote);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        prevQuote();
+    } else if (e.key === 'ArrowRight') {
+        nextQuote();
+    }
+});
+
+// Auto-rotate every 5 seconds
+let autoRotateInterval;
+function startAutoRotate() {
+    autoRotateInterval = setInterval(() => {
+        nextQuote();
+    }, 5000);
+}
+
+// Load quotes on page load
+loadQuotes().then(() => {
+    startAutoRotate();
+});
+
+// Pause auto-rotate on hover
+if (quoteCard) {
+    quoteCard.addEventListener('mouseenter', () => {
+        if (autoRotateInterval) {
+            clearInterval(autoRotateInterval);
+        }
+    });
+    
+    quoteCard.addEventListener('mouseleave', () => {
+        startAutoRotate();
+    });
+}
+
+// Interactive "Try to Reach 100%" Button
+const tryButton = document.getElementById('tryButton');
+const interactiveResult = document.getElementById('interactiveResult');
+const responses = [
+    "Nope. Still 99%. 😏",
+    "Nice try. Still loading... 99%",
+    "System says: 'Not today, degen.' 99%",
+    "Error: Cannot reach 100%. System stuck at 99%.",
+    "Loading... Loading... Still 99% 💀",
+    "The button is also loading at 99% 😭",
+    "Even the button can't escape the 99% curse ⚙️",
+    "System response: 'lol no' — 99%",
+    "You clicked it. We're still at 99%. Coincidence? I think not. 😎",
+    "The 99% is stronger than your click. Still loading..."
+];
+
+let clickCount = 0;
+
+if (tryButton && interactiveResult) {
+    tryButton.addEventListener('click', () => {
+        clickCount++;
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        interactiveResult.textContent = randomResponse;
+        
+        // Add glitch effect
+        tryButton.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            tryButton.style.transform = 'scale(1)';
+        }, 100);
+        
+        // Update loading bar to show it's still 99%
+        if (loadingPercentage) {
+            loadingPercentage.textContent = '99%';
+        }
+        if (loadingBar) {
+            const progressBar = loadingBar.querySelector('.loading-progress');
+            if (progressBar) {
+                progressBar.style.width = '99%';
+            }
+        }
+        
+        // Easter egg after 10 clicks
+        if (clickCount === 10) {
+            interactiveResult.textContent = "You've clicked 10 times. Still 99%. This is your life now. Welcome to the cult. ⚡️";
+        }
+    });
+}
+
+// Terminal Live Log Updates
+const liveLog = document.getElementById('liveLog');
+const logMessages = [
+    "Still loading... 99%",
+    "System processing... 99%",
+    "Buffering... 99%",
+    "Loading sequence active... 99%",
+    "Waiting for 100%... 99%",
+    "Cult chamber opening... 99%",
+    "Portal initializing... 99%",
+    "Signal detected... 99%",
+    "Node active... 99%",
+    "Core warming... 99%"
+];
+
+if (liveLog) {
+    let logIndex = 0;
+    setInterval(() => {
+        liveLog.textContent = logMessages[logIndex];
+        logIndex = (logIndex + 1) % logMessages.length;
+    }, 3000);
+}
+
+// Auto-scroll terminal to bottom
+const terminalBody = document.getElementById('terminalBody');
+if (terminalBody) {
+    terminalBody.scrollTop = terminalBody.scrollHeight;
+    setInterval(() => {
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+    }, 1000);
+}
+
 // Console easter egg
 console.log('%cLOADING... (99%)', 'color: #00d9ff; font-size: 20px; font-weight: bold;');
 console.log('%cbuffering.exe ☕ system stuck at 99%…', 'color: #b0b0b0; font-size: 14px;');
 console.log('%c$LOADING — launching soon ⚙️', 'color: #00d9ff; font-size: 14px;');
+console.log('%cWe\'re not early. We\'re not late. We\'re buffering.', 'color: #00d9ff; font-size: 12px; font-style: italic;');

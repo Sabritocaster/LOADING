@@ -1,0 +1,182 @@
+[
+  {
+    "path": "memes/0.png",
+    "name": "0.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/1.png",
+    "name": "1.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/10.webp",
+    "name": "10.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/11.webp",
+    "name": "11.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/12.webp",
+    "name": "12.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/13.webp",
+    "name": "13.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/14.webp",
+    "name": "14.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/2.png",
+    "name": "2.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/3.png",
+    "name": "3.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/4.png",
+    "name": "4.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/5.png",
+    "name": "5.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/6.png",
+    "name": "6.png",
+    "type": "image",
+    "extension": ".png"
+  },
+  {
+    "path": "memes/8.webp",
+    "name": "8.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/9.webp",
+    "name": "9.webp",
+    "type": "image",
+    "extension": ".webp"
+  },
+  {
+    "path": "memes/km_20221018_540p_24f_20251122_234153.mp4",
+    "name": "km_20221018_540p_24f_20251122_234153.mp4",
+    "type": "video",
+    "extension": ".mp4"
+  },
+  {
+    "path": "memes/km_atlet angkasa_1080p_24f_20251122_233907.mp4",
+    "name": "km_atlet angkasa_1080p_24f_20251122_233907.mp4",
+    "type": "video",
+    "extension": ".mp4"
+  },
+  {
+    "path": "memes/km_Ellon_720p_24f_20251122_234336.mp4",
+    "name": "km_Ellon_720p_24f_20251122_234336.mp4",
+    "type": "video",
+    "extension": ".mp4"
+  },
+  {
+    "path": "memes/km_Mr Beast VL_540p_24f_20251122_234021.mp4",
+    "name": "km_Mr Beast VL_540p_24f_20251122_234021.mp4",
+    "type": "video",
+    "extension": ".mp4"
+  },
+  {
+    "path": "memes/km_Munyok_540p_24f_20251122_233953.mp4",
+    "name": "km_Munyok_540p_24f_20251122_233953.mp4",
+    "type": "video",
+    "extension": ".mp4"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.35.jpeg",
+    "name": "photo_2025-11-22 23.27.35.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.40.jpeg",
+    "name": "photo_2025-11-22 23.27.40.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.42.jpeg",
+    "name": "photo_2025-11-22 23.27.42.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.45.jpeg",
+    "name": "photo_2025-11-22 23.27.45.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.46.jpeg",
+    "name": "photo_2025-11-22 23.27.46.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.48.jpeg",
+    "name": "photo_2025-11-22 23.27.48.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.27.49.jpeg",
+    "name": "photo_2025-11-22 23.27.49.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.28.42.jpeg",
+    "name": "photo_2025-11-22 23.28.42.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.28.45.jpeg",
+    "name": "photo_2025-11-22 23.28.45.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.28.47.jpeg",
+    "name": "photo_2025-11-22 23.28.47.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  },
+  {
+    "path": "memes/photo_2025-11-22 23.28.49.jpeg",
+    "name": "photo_2025-11-22 23.28.49.jpeg",
+    "type": "image",
+    "extension": ".jpeg"
+  }
+]

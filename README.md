@@ -50,3 +50,19 @@ Bu site, "sonsuz yükleme ekranı" temasını kullanır:
 - Loading bar %99'da kalacak şekilde tasarlandı
 - Glitch efektleri rastgele tetiklenir
 - Tüm animasyonlar CSS ve JavaScript ile oluşturuldu
+
+## Memes Sayfası
+
+Memes klasörüne yeni dosya ekledikten sonra:
+
+```bash
+node generate-memes-list.js
+```
+
+Bu komut `memes-list.json` dosyasını otomatik oluşturur ve günceller.
+
+**Desteklenen formatlar:**
+- **Resimler:** JPG, JPEG, PNG, GIF, WebP, SVG
+- **Videolar:** MP4, WebM, MOV, AVI, MKV
+
+WebP formatı tam desteklenmektedir.
