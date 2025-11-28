@@ -132,6 +132,61 @@ function randomGlitch() {
 
 setInterval(randomGlitch, 2000);
 
+// Countdown Timer - Turkey Time (UTC+3) - November 29, 2025, 21:30
+const countdownDays = document.getElementById('days');
+const countdownHours = document.getElementById('hours');
+const countdownMinutes = document.getElementById('minutes');
+const countdownSeconds = document.getElementById('seconds');
+
+if (countdownDays && countdownHours && countdownMinutes && countdownSeconds) {
+    // Target date: November 29, 2025, 21:30 Turkey Time (UTC+3)
+    // Convert to UTC: November 29, 2025, 18:30 UTC
+    const targetDate = new Date('2025-11-29T18:30:00Z'); // UTC time
+    
+    // Track countdown view on page load
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'countdown_view', {
+            'event_category': 'Countdown',
+            'event_label': 'Timer Displayed'
+        });
+    }
+    
+    function updateCountdown() {
+        const now = new Date();
+        const diff = targetDate - now;
+        
+        if (diff <= 0) {
+            // Countdown finished
+            countdownDays.textContent = '00';
+            countdownHours.textContent = '00';
+            countdownMinutes.textContent = '00';
+            countdownSeconds.textContent = '00';
+            
+            // Track countdown completion
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'countdown_complete', {
+                    'event_category': 'Countdown',
+                    'event_label': 'Timer Reached Zero'
+                });
+            }
+            return;
+        }
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        countdownDays.textContent = String(days).padStart(2, '0');
+        countdownHours.textContent = String(hours).padStart(2, '0');
+        countdownMinutes.textContent = String(minutes).padStart(2, '0');
+        countdownSeconds.textContent = String(seconds).padStart(2, '0');
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000); // Update every second
+}
+
 // Days Counter - Calculate days since Nov 1, 2025 (or whenever you started)
 const startDate = new Date('2025-11-01');
 const daysCounter = document.getElementById('daysCounter');
@@ -217,19 +272,55 @@ function updateCounter() {
 
 // Navigation buttons
 if (quotePrev) {
-    quotePrev.addEventListener('click', prevQuote);
+    quotePrev.addEventListener('click', () => {
+        prevQuote();
+        // Track quote navigation
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'quote_navigation', {
+                'event_category': 'Quotes',
+                'event_label': 'Previous',
+                'value': currentQuoteIndex
+            });
+        }
+    });
 }
 
 if (quoteNext) {
-    quoteNext.addEventListener('click', nextQuote);
+    quoteNext.addEventListener('click', () => {
+        nextQuote();
+        // Track quote navigation
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'quote_navigation', {
+                'event_category': 'Quotes',
+                'event_label': 'Next',
+                'value': currentQuoteIndex
+            });
+        }
+    });
 }
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
         prevQuote();
+        // Track keyboard navigation
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'quote_navigation', {
+                'event_category': 'Quotes',
+                'event_label': 'Keyboard Previous',
+                'value': currentQuoteIndex
+            });
+        }
     } else if (e.key === 'ArrowRight') {
         nextQuote();
+        // Track keyboard navigation
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'quote_navigation', {
+                'event_category': 'Quotes',
+                'event_label': 'Keyboard Next',
+                'value': currentQuoteIndex
+            });
+        }
     }
 });
 
@@ -283,6 +374,15 @@ if (tryButton && interactiveResult) {
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
         interactiveResult.textContent = randomResponse;
         
+        // Track button click
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'button_click', {
+                'event_category': 'Interactive',
+                'event_label': 'Try to Reach 100%',
+                'value': clickCount
+            });
+        }
+        
         // Add glitch effect
         tryButton.style.transform = 'scale(0.95)';
         setTimeout(() => {
@@ -303,6 +403,13 @@ if (tryButton && interactiveResult) {
         // Easter egg after 10 clicks
         if (clickCount === 10) {
             interactiveResult.textContent = "You've clicked 10 times. Still 99%. This is your life now. Welcome to the cult. ⚡️";
+            // Track easter egg
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'easter_egg', {
+                    'event_category': 'Interactive',
+                    'event_label': '10 Clicks Reached'
+                });
+            }
         }
     });
 }
@@ -338,6 +445,35 @@ if (terminalBody) {
         terminalBody.scrollTop = terminalBody.scrollHeight;
     }, 1000);
 }
+
+// Track external link clicks (Telegram, X, etc.)
+document.addEventListener('DOMContentLoaded', () => {
+    // Track Telegram links
+    document.querySelectorAll('a[href*="t.me"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'external_link_click', {
+                    'event_category': 'Outbound',
+                    'event_label': 'Telegram',
+                    'transport_type': 'beacon'
+                });
+            }
+        });
+    });
+    
+    // Track X/Twitter links
+    document.querySelectorAll('a[href*="x.com"], a[href*="twitter.com"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'external_link_click', {
+                    'event_category': 'Outbound',
+                    'event_label': 'X (Twitter)',
+                    'transport_type': 'beacon'
+                });
+            }
+        });
+    });
+});
 
 // Console easter egg
 console.log('%cLOADING... (99%)', 'color: #00d9ff; font-size: 20px; font-weight: bold;');

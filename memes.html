@@ -6,6 +6,15 @@
     <title>Memes — LOADING… (99%)</title>
     <link rel="icon" type="image/png" href="digital.png">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57N29VTGBV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-57N29VTGBV');
+    </script>
     <style>
         .memes-container {
             padding: 2rem 0;
@@ -347,7 +356,9 @@
         function openModal(file) {
             modalContent.innerHTML = '';
             
-            if (isVideo(file)) {
+            const isVideoFile = isVideo(file);
+            
+            if (isVideoFile) {
                 const video = document.createElement('video');
                 video.src = file;
                 video.controls = true;
@@ -365,6 +376,17 @@
 
             memeModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Track meme view
+            if (typeof gtag !== 'undefined') {
+                const fileName = file.split('/').pop();
+                gtag('event', 'meme_view', {
+                    'event_category': 'Memes',
+                    'event_label': isVideoFile ? 'Video' : 'Image',
+                    'value': 1,
+                    'custom_parameter': fileName
+                });
+            }
         }
 
         // Close modal
@@ -372,6 +394,14 @@
             memeModal.classList.remove('active');
             document.body.style.overflow = '';
             modalContent.innerHTML = '';
+            
+            // Track modal close
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'meme_close', {
+                    'event_category': 'Memes',
+                    'event_label': 'Modal Closed'
+                });
+            }
         }
 
         modalClose.addEventListener('click', closeModal);
@@ -430,6 +460,31 @@
         document.querySelectorAll('.sidebar-link').forEach(link => {
             link.addEventListener('click', () => {
                 setTimeout(closeSidebar, 300);
+            });
+        });
+        
+        // Track external link clicks (Telegram, X, etc.)
+        document.querySelectorAll('a[href*="t.me"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'external_link_click', {
+                        'event_category': 'Outbound',
+                        'event_label': 'Telegram',
+                        'transport_type': 'beacon'
+                    });
+                }
+            });
+        });
+        
+        document.querySelectorAll('a[href*="x.com"], a[href*="twitter.com"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'external_link_click', {
+                        'event_category': 'Outbound',
+                        'event_label': 'X (Twitter)',
+                        'transport_type': 'beacon'
+                    });
+                }
             });
         });
 
