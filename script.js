@@ -141,7 +141,7 @@ const countdownSeconds = document.getElementById('seconds');
 if (countdownDays && countdownHours && countdownMinutes && countdownSeconds) {
     // Target date: November 29, 2025, 21:30 Turkey Time (UTC+3)
     // Convert to UTC: November 29, 2025, 18:30 UTC
-    const targetDate = new Date('2025-11-29T18:30:00Z'); // UTC time
+    const targetDate = new Date('2025-11-29T17:00:00Z'); // UTC time
     
     // Track countdown view on page load
     if (typeof gtag !== 'undefined') {
